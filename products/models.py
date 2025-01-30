@@ -5,13 +5,15 @@ from base.models import basemodel
 
 class Category(basemodel):
     category_name = models.CharField(max_length=100)
-    category_image = models.ImageField(upload="categories")
+    category_image = models.ImageField(upload_to="categories")
+    slug = models.SlugField(unique=True) # a slug field is a special field used to create human-readable, URL-safe identifiers for a model instance
 
 
 
 
 class Product(basemodel):
     product_name=models.CharField(max_length=50)
+    slug = models.SlugField(unique=True , null=True, blank=True)
     category=models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     price=models.IntegerField()
     product_description=models.TextField(max_length=500)
@@ -20,5 +22,5 @@ class Product(basemodel):
 
 class Product_image(basemodel):
     product=models.ForeignKey(Product,on_delete=models.CASCADE , related_name="product_images")
-    image=models.ImageField(upload="product")     
+    image=models.ImageField(upload_to="product")     
     
