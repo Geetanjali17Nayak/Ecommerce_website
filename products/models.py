@@ -1,13 +1,20 @@
 from django.db import models
 from base.models import basemodel
+from django.utils.text import slugify
 
 # Create your models here.
 
 class Category(basemodel):
     category_name = models.CharField(max_length=100)
-    category_image = models.ImageField(upload_to="categories")
     slug = models.SlugField(unique=True) # a slug field is a special field used to create human-readable, URL-safe identifiers for a model instance
+    category_image = models.ImageField(upload_to="categories")
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.category_name)
+        super(Category, self).save(*args, **kwargs)
+
+    def __str__(self)->str:
+        return self.category_name   
 
 
 

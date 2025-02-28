@@ -20,6 +20,7 @@ class Profile(basemodel):
 def send_email_token(sender, instance,created,**kwargs):
     try:
         if created:
+            Profile.objects.create(user=instance,email_token=email_token)
             email_token=str(uuid.uuid4)
             email=instance.email
             send_account_activation_mail(email,email_token)
